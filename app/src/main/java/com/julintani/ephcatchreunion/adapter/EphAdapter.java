@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.julintani.ephcatchreunion.R;
+import com.julintani.ephcatchreunion.helpers.ItemLongPressHelper;
 import com.julintani.ephcatchreunion.interfaces.OnProfileCardClickListener;
 import com.julintani.ephcatchreunion.interfaces.OnProfileCardLongClickListener;
 import com.julintani.ephcatchreunion.models.User;
@@ -20,13 +21,13 @@ import java.util.List;
 public class EphAdapter extends RecyclerView.Adapter {
     protected List<User> mUsers;
     private OnProfileCardClickListener mClickListener;
-    private OnProfileCardLongClickListener mLongClickListener;
+    private ItemLongPressHelper.Callback mCallback;
 
     public EphAdapter(List<User> users, OnProfileCardClickListener clickListener,
-                      OnProfileCardLongClickListener longClickListener){
+                      ItemLongPressHelper.Callback callback){
         mUsers = users;
         mClickListener = clickListener;
-        mLongClickListener = longClickListener;
+        mCallback = callback;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class EphAdapter extends RecyclerView.Adapter {
             return new InfoViewHolder(view);
         }
         View view = inflater.inflate(R.layout.card_user, parent, false);
-        return new ProfileViewHolder(view, ProfileViewHolder.ProfileType.MINIFIED);
+        return new ProfileViewHolder(view, ProfileViewHolder.ProfileType.MINIFIED, mCallback);
     }
 
     @Override
@@ -60,13 +61,6 @@ public class EphAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if (mClickListener != null) mClickListener.onProfileCardClicked(holder);
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (mLongClickListener != null) mLongClickListener.onProfileCardLongClicked(holder);
-                    return true;
                 }
             });
         }

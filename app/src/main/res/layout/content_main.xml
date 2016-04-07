@@ -24,4 +24,34 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <include
+        android:id="@+id/ll_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_super_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_catch_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
 </RelativeLayout>

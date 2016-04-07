@@ -3,12 +3,15 @@ package com.julintani.ephcatchreunion.views;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.julintani.ephcatchreunion.R;
+import com.julintani.ephcatchreunion.helpers.ItemLongPressHelper;
 import com.julintani.ephcatchreunion.models.User;
 
 /**
@@ -29,16 +32,6 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
 
     protected ImageView mUserImageView;
 
-    protected View mLikeView;
-    protected View mSuperLikeView;
-    protected View mMessageView;
-    protected View mCatchUpView;
-
-    protected Button mLikeButton;
-    protected Button mSuperLikeButton;
-    protected Button mMessageButton;
-    protected Button mCatchUpButton;
-
     protected TextView mNameTextView;
     protected TextView mMajorTextView;
     protected TextView mExtraCurricularsTextView;
@@ -46,10 +39,12 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
 
     private User mUser;
     private ProfileType mType;
+    private ItemLongPressHelper.Callback mCallback;
 
-    public ProfileViewHolder(View itemView, ProfileType type) {
+    public ProfileViewHolder(View itemView, ProfileType type, ItemLongPressHelper.Callback callback) {
         super(itemView);
         mType = type;
+        mCallback = callback;
         loadViews(itemView);
     }
 
@@ -58,24 +53,9 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
         mNameTextView = (TextView) view.findViewById(R.id.tv_name);
         mJobTextView = (TextView) view.findViewById(R.id.tv_job);
 
-        mLikeView = view.findViewById(R.id.ll_like);
-        mSuperLikeView = view.findViewById(R.id.ll_super_like);
-        mMessageView = view.findViewById(R.id.ll_messages);
-        mCatchUpView = view.findViewById(R.id.ll_catch_up);
-
-        mLikeButton = (Button) mLikeView.findViewById(R.id.btn_action);
-        mSuperLikeButton = (Button) mSuperLikeView.findViewById(R.id.btn_action);
-        mMessageButton = (Button) mMessageView.findViewById(R.id.btn_action);
-        mCatchUpButton = (Button) mCatchUpView.findViewById(R.id.btn_action);
-
         if (mType == ProfileType.LARGE){
             mMajorTextView = (TextView) view.findViewById(R.id.tv_major);
             mExtraCurricularsTextView = (TextView) view.findViewById(R.id.tv_extra_curriculars);
-        }else {
-            mLikeView.setVisibility(View.GONE);
-            mSuperLikeView.setVisibility(View.GONE);
-            mMessageView.setVisibility(View.GONE);
-            mCatchUpView.setVisibility(View.GONE);
         }
     }
 
@@ -108,6 +88,8 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
                     }
                 });
             }
+
+            new ItemLongPressHelper(mCallback).attachToViewHolder(this);
         }
     }
 
@@ -117,22 +99,6 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView getUserImageView() {
         return mUserImageView;
-    }
-
-    public Button getLikeButton() {
-        return mLikeButton;
-    }
-
-    public Button getSuperLikeButton() {
-        return mSuperLikeButton;
-    }
-
-    public Button getMessageButton() {
-        return mMessageButton;
-    }
-
-    public Button getCatchUpButton() {
-        return mCatchUpButton;
     }
 
     public TextView getNameTextView() {

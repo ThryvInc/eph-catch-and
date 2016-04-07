@@ -25,7 +25,7 @@ public class OnboardingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         View card = findViewById(R.id.card_profile);
-        final ProfileViewHolder profileViewHolder = new ProfileViewHolder(card, ProfileViewHolder.ProfileType.LARGE);
+        final ProfileViewHolder profileViewHolder = new ProfileViewHolder(card, ProfileViewHolder.ProfileType.LARGE, null);
         profileViewHolder.displayUser(User.generateDummyUser());
         card.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,7 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
             mUser = (User) extras.getSerializable(USER_KEY);
         }
 
-        ProfileViewHolder profileViewHolder = new ProfileViewHolder(findViewById(R.id.profile), ProfileViewHolder.ProfileType.LARGE);
+        ProfileViewHolder profileViewHolder = new ProfileViewHolder(findViewById(R.id.profile), ProfileViewHolder.ProfileType.LARGE, null);
         profileViewHolder.setTransitions();
         profileViewHolder.displayUser(mUser);
     }

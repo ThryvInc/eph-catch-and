@@ -56,31 +56,6 @@
 
         </LinearLayout>
 
-        <include
-            android:id="@+id/ll_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            layout="@layout/circle_button"/>
-
-        <include android:id="@+id/ll_super_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            layout="@layout/circle_button"/>
-
-        <include android:id="@+id/ll_messages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            layout="@layout/circle_button"/>
-
-        <include android:id="@+id/ll_catch_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            layout="@layout/circle_button"/>
-
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
