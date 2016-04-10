@@ -12,6 +12,8 @@ import com.julintani.ephcatchreunion.R;
 import com.julintani.ephcatchreunion.models.User;
 import com.julintani.ephcatchreunion.views.ProfileViewHolder;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by ell on 3/26/16.
  */
@@ -21,8 +23,7 @@ public class OnboardingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
         View card = findViewById(R.id.card_profile);
         final ProfileViewHolder profileViewHolder = new ProfileViewHolder(card, ProfileViewHolder.ProfileType.LARGE, null);
@@ -37,4 +38,21 @@ public class OnboardingActivity extends AppCompatActivity {
             }
         });
     }
+
+    protected void loadViews(){
+
+    }
+
+    protected void likeStep(){
+
+    }
+
+    protected void superLikeStep(){
+
+    }
+
+    protected void catchUpStep(){
+
+    }
+
 }

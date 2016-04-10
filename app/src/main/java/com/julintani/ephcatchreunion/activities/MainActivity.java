@@ -19,6 +19,11 @@ import com.julintani.ephcatchreunion.R;
 import com.julintani.ephcatchreunion.adapter.EphAdapter;
 import com.julintani.ephcatchreunion.helpers.ItemLongPressHelper;
 import com.julintani.ephcatchreunion.interfaces.OnProfileCardClickListener;
+import com.julintani.ephcatchreunion.listeners.CatchUpOnClickListener;
+import com.julintani.ephcatchreunion.listeners.LikeOnClickListener;
+import com.julintani.ephcatchreunion.listeners.MessageOnClickListener;
+import com.julintani.ephcatchreunion.listeners.SuperLikeOnClickListener;
+import com.julintani.ephcatchreunion.models.ActionAnimationHelper;
 import com.julintani.ephcatchreunion.models.User;
 import com.julintani.ephcatchreunion.views.ProfileViewHolder;
 
@@ -109,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 animateButtons(false, mXCoordinate, mYCoordinate);
+                mChosenUser = null;
             }
         });
 
@@ -116,28 +122,36 @@ public class MainActivity extends AppCompatActivity {
         mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new LikeOnClickListener().onClickUserAction(mLikeView, mChosenUser);
                 animateButtons(false, mXCoordinate, mYCoordinate);
+                mChosenUser = null;
             }
         });
         mSuperLikeButton.setText("S");
         mSuperLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new SuperLikeOnClickListener().onClickUserAction(mLikeView, mChosenUser);
                 animateButtons(false, mXCoordinate, mYCoordinate);
+                mChosenUser = null;
             }
         });
         mMessageButton.setText("M");
         mMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new MessageOnClickListener().onClickUserAction(mLikeView, mChosenUser);
                 animateButtons(false, mXCoordinate, mYCoordinate);
+                mChosenUser = null;
             }
         });
         mCatchUpButton.setText("C");
         mCatchUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new CatchUpOnClickListener().onClickUserAction(mLikeView, mChosenUser);
                 animateButtons(false, mXCoordinate, mYCoordinate);
+                mChosenUser = null;
             }
         });
     }
@@ -242,10 +256,10 @@ public class MainActivity extends AppCompatActivity {
         if (isForward){
             for (int i = 0; i < mButtons.length; i++){
                 mButtons[i].setVisibility(View.VISIBLE);
-                animateButtonBy(mButtons[i], fromX, -toX, fromY, -toY, duration * i);
+                ActionAnimationHelper.animateButtonBy(mButtons[i], fromX, -toX, fromY, -toY, duration * i);
 
-                toX = nextXGivenPreviousPoint(toX, toY, radius, margin);
-                toY = toYGivenToX(toX, 4 * radius);
+                toX = ActionAnimationHelper.nextXGivenPreviousPoint(toX, toY, radius, margin);
+                toY = ActionAnimationHelper.toYGivenToX(toX, 4 * radius);
             }
 
             mExitView.setVisibility(View.VISIBLE);
@@ -259,10 +273,10 @@ public class MainActivity extends AppCompatActivity {
         }else {
             for (int i = 0; i < mButtons.length; i++){
                 mButtons[i].setVisibility(View.VISIBLE);
-                animateButtonBy(mButtons[i], fromX - toX, toX, fromY - toY, toY, duration * i);
+                ActionAnimationHelper.animateButtonBy(mButtons[i], fromX - toX, toX, fromY - toY, toY, duration * i);
 
-                toX = nextXGivenPreviousPoint(toX, toY, radius, margin);
-                toY = toYGivenToX(toX, 4 * radius);
+                toX = ActionAnimationHelper.nextXGivenPreviousPoint(toX, toY, radius, margin);
+                toY = ActionAnimationHelper.toYGivenToX(toX, 4 * radius);
             }
 
             mExitView.setVisibility(View.VISIBLE);
@@ -288,34 +302,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).start();
         }
-    }
-
-    protected float toYGivenToX(float toX, float radius){
-        return (float)Math.sqrt(Math.pow(radius, 2) - Math.pow(toX, 2));
-    }
-
-    //quadratic formula used here
-    protected float nextXGivenPreviousPoint(float oldX, float oldY, int radius, int margin){
-        double constant = 32 * Math.pow(radius, 2) - Math.pow(2 * radius + margin, 2);
-        double b = - 4 * oldX * constant;
-        double a = 4 * Math.pow(4 * radius, 2);
-        double c = Math.pow(constant, 2) - Math.pow(8 * oldY * radius, 2);
-        double radicand = Math.pow(b, 2) - 4 * a * c; // b^2 - 4ac
-        double numerator = -b - Math.sqrt(radicand); // -b - root(b^2 - 4ac)
-        double denominator = 2 * a;
-        return (float) (numerator / denominator);
-    }
-
-    protected void animateButtonBy(View button, float fromX, float toX, float fromY, float toY, int offset){
-        int duration = 100;
-        button.setX(fromX);
-        button.setY(fromY);
-        button.animate()
-                .setDuration(duration)
-                .translationXBy(toX)
-                .translationYBy(toY)
-                .setStartDelay(offset)
-                .start();
     }
 
     @Override
