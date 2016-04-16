@@ -81,12 +81,6 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
             if (mType == ProfileType.LARGE){
                 mMajorTextView.setText(user.getMajor());
                 mExtraCurricularsTextView.setText(user.getExtraCurriculars());
-            }else {
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
             }
 
             new ItemLongPressHelper(mCallback).attachToViewHolder(this);

@@ -1,11 +1,80 @@
 package com.julintani.ephcatchreunion.models;
 
+import android.support.v4.view.ViewCompat;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * Created by ell on 4/9/16.
  */
 public class ActionAnimationHelper {
+
+    public static void animateButtons(boolean isForward, float fromX, float fromY, float pixelsPerDip,
+                                      final View[] buttons, final View exitView){
+        int radius = (int) (20 * pixelsPerDip);
+        int margin = (int) (4 * pixelsPerDip);
+        fromX = fromX - radius;
+        fromY = fromY - radius;
+
+        float toX = radius * 4;
+        float toY = 0;
+
+        int duration = 50;
+
+        if (isForward){
+            for (int i = 0; i < buttons.length; i++){
+                buttons[i].setVisibility(View.VISIBLE);
+                ViewCompat.setTranslationZ(buttons[i], 21);
+                ActionAnimationHelper.animateButtonBy(buttons[i], fromX, -toX, fromY, -toY, duration * i);
+
+                toX = ActionAnimationHelper.nextXGivenPreviousPoint(toX, toY, radius, margin);
+                toY = ActionAnimationHelper.toYGivenToX(toX, 4 * radius);
+            }
+
+            exitView.setVisibility(View.VISIBLE);
+            ViewCompat.setTranslationZ(exitView, 21);
+            exitView.setX(fromX);
+            exitView.setY(fromY);
+            exitView.setAlpha(1f);
+            exitView.animate()
+                    .rotationBy(180)
+                    .setDuration(duration * buttons.length)
+                    .start();
+        }else {
+            for (int i = 0; i < buttons.length; i++){
+                buttons[i].setVisibility(View.VISIBLE);
+                ViewCompat.setTranslationZ(buttons[i], 21);
+                ActionAnimationHelper.animateButtonBy(buttons[i], fromX - toX, toX, fromY - toY, toY, duration * i);
+
+                toX = ActionAnimationHelper.nextXGivenPreviousPoint(toX, toY, radius, margin);
+                toY = ActionAnimationHelper.toYGivenToX(toX, 4 * radius);
+            }
+
+            exitView.setVisibility(View.VISIBLE);
+            ViewCompat.setTranslationZ(exitView, 21);
+            exitView.setAlpha(1f);
+            exitView.animate()
+                    .rotationBy(180)
+                    .setDuration(duration * buttons.length)
+                    .withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            exitView.animate()
+                                    .alpha(0f)
+                                    .setDuration(100)
+                                    .withEndAction(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            exitView.setVisibility(View.GONE);
+                                        }
+                                    }).start();
+                            for (View button : buttons){
+                                button.setVisibility(View.GONE);
+                            }
+                        }
+                    }).start();
+        }
+    }
 
     public static float toYGivenToX(float toX, float radius){
         return (float)Math.sqrt(Math.pow(radius, 2) - Math.pow(toX, 2));

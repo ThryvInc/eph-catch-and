@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.julintani.ephcatchreunion.R;
 import com.julintani.ephcatchreunion.listeners.CatchUpOnClickListener;
@@ -32,10 +33,10 @@ public class ProfileActivity extends AppCompatActivity {
     @Bind(R.id.ll_catch_up)
     protected View mCatchUpView;
 
-    protected Button mLikeButton;
-    protected Button mSuperLikeButton;
-    protected Button mMessageButton;
-    protected Button mCatchUpButton;
+    protected ImageButton mLikeButton;
+    protected ImageButton mSuperLikeButton;
+    protected ImageButton mMessageButton;
+    protected ImageButton mCatchUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,37 +57,38 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     protected void loadViews(){
-        mLikeButton = (Button) mLikeView.findViewById(R.id.btn_action);
-        mSuperLikeButton = (Button) mSuperLikeView.findViewById(R.id.btn_action);
-        mMessageButton = (Button) mMessageView.findViewById(R.id.btn_action);
-        mCatchUpButton = (Button) mCatchUpView.findViewById(R.id.btn_action);
+        mLikeButton = (ImageButton)mLikeView.findViewById(R.id.btn_action);
+        mSuperLikeButton = (ImageButton)mSuperLikeView.findViewById(R.id.btn_action);
+        mCatchUpButton = (ImageButton)mCatchUpView.findViewById(R.id.btn_action);
+        mMessageButton = (ImageButton)mMessageView.findViewById(R.id.btn_action);
 
-        mLikeButton.setText("L");
+        mLikeButton.setImageDrawable(getResources().getDrawable(R.drawable.heart_icon_white));
+        mSuperLikeButton.setImageDrawable(getResources().getDrawable(R.drawable.star));
+        mMessageButton.setImageDrawable(getResources().getDrawable(R.drawable.messages));
+        mCatchUpButton.setImageDrawable(getResources().getDrawable(R.drawable.cat));
+
         mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LikeOnClickListener().onClickUserAction(mLikeView, mUser);
+                new LikeOnClickListener().onClickUserAction(mLikeButton, mUser);
             }
         });
-        mSuperLikeButton.setText("S");
         mSuperLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SuperLikeOnClickListener().onClickUserAction(mLikeView, mUser);
+                new SuperLikeOnClickListener().onClickUserAction(mSuperLikeButton, mUser);
             }
         });
-        mMessageButton.setText("M");
         mMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MessageOnClickListener().onClickUserAction(mLikeView, mUser);
+                new MessageOnClickListener().onClickUserAction(mMessageButton, mUser);
             }
         });
-        mCatchUpButton.setText("C");
         mCatchUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CatchUpOnClickListener().onClickUserAction(mLikeView, mUser);
+                new CatchUpOnClickListener().onClickUserAction(mCatchUpButton, mUser);
             }
         });
     }

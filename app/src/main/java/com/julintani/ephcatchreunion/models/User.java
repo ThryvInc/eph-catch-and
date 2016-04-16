@@ -16,9 +16,9 @@ public class User implements Serializable{
     public static User generateDummyUser(){
         User user = new User();
         user.name = "Ephraim Williams";
-        user.major = "Defeating-the-French";
-        user.extraCurriculars = "ROTC, Establishing schools";
-        user.job = "Colonel";
+        user.major = "Defeating-the-French major";
+        user.extraCurriculars = "Being a Colonel, Establishing schools";
+        user.job = "Namesake of the best college evar";
         user.imageUrl = "http://ephsports.williams.edu/images/Reading_Purple_Cow_at_380_x_260.jpg";
         return user;
     }

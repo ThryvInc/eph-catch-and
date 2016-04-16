@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_onboarding">
+
+    <include
+        android:id="@+id/ll_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_super_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_catch_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
+
+    <include
+        android:id="@+id/ll_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/circle_button"/>
 
     <TextView
         android:id="@+id/tv_onboarding1"
@@ -13,16 +44,28 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:layout_above="@+id/card_profile"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:text="Onboarding"
         />
 
+    <include
+        android:id="@+id/ll_top_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_onboarding1"
+        android:layout_centerHorizontal="true"
+        layout="@layout/circle_button"/>
+
     <android.support.v7.widget.CardView
         android:id="@+id/card_profile"
-        android:layout_width="250dp"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true"
+        app:layout_aspectRatio="70%"
+        app:layout_widthPercent="70%"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/ll_top_example"
+        android:layout_centerHorizontal="true"
         android:elevation="20dp"
         >
 
@@ -46,7 +89,17 @@
         android:textSize="20sp"
         android:layout_below="@+id/card_profile"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:text="Onboarding"
         />
 
-</RelativeLayout>
+    <include
+        android:id="@+id/ll_bottom_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_onboarding2"
+        android:layout_centerHorizontal="true"
+        layout="@layout/circle_button"/>
+
+</android.support.percent.PercentRelativeLayout>
