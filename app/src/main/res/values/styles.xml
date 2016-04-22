@@ -21,4 +21,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="EphActionButton" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/action_btn_background</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
 </resources>

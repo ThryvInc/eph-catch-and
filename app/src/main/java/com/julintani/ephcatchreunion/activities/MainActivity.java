@@ -14,11 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.julintani.ephcatchreunion.R;
 import com.julintani.ephcatchreunion.adapter.EphAdapter;
 import com.julintani.ephcatchreunion.helpers.ItemLongPressHelper;
 import com.julintani.ephcatchreunion.interfaces.OnProfileCardClickListener;
+import com.julintani.ephcatchreunion.listeners.CatchUpOnClickListener;
+import com.julintani.ephcatchreunion.listeners.LikeOnClickListener;
+import com.julintani.ephcatchreunion.listeners.MessageOnClickListener;
+import com.julintani.ephcatchreunion.listeners.SuperLikeOnClickListener;
+import com.julintani.ephcatchreunion.models.ActionAnimationHelper;
 import com.julintani.ephcatchreunion.models.User;
 import com.julintani.ephcatchreunion.views.ProfileViewHolder;
 
@@ -53,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
     protected View[] mButtons;
 
-    protected Button mLikeButton;
-    protected Button mSuperLikeButton;
-    protected Button mMessageButton;
-    protected Button mCatchUpButton;
-    protected Button mExitButton;
+    protected ImageButton mLikeButton;
+    protected ImageButton mSuperLikeButton;
+    protected ImageButton mMessageButton;
+    protected ImageButton mCatchUpButton;
+    protected ImageButton mExitButton;
 
     private User mChosenUser;
 
@@ -65,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLongClick(RecyclerView.ViewHolder viewHolder, float xCoordinate, float yCoordinate) {
             mChosenUser = ((ProfileViewHolder) viewHolder).getUser();
-            animateButtons(true, xCoordinate, yCoordinate);
+            float pixelsPerDip = getResources().getDisplayMetrics().density;
+            ActionAnimationHelper.animateButtons(true, xCoordinate, yCoordinate, pixelsPerDip, mButtons, mExitView);
 
             mXCoordinate = xCoordinate;
             mYCoordinate = yCoordinate;
@@ -89,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void loadViews(){
-        mLikeButton = (Button) mLikeView.findViewById(R.id.btn_action);
-        mSuperLikeButton = (Button) mSuperLikeView.findViewById(R.id.btn_action);
-        mMessageButton = (Button) mMessageView.findViewById(R.id.btn_action);
-        mCatchUpButton = (Button) mCatchUpView.findViewById(R.id.btn_action);
-        mExitButton = (Button) mExitView.findViewById(R.id.btn_action);
+        mLikeButton = (ImageButton)mLikeView.findViewById(R.id.btn_action);
+        mSuperLikeButton = (ImageButton)mSuperLikeView.findViewById(R.id.btn_action);
+        mCatchUpButton = (ImageButton)mCatchUpView.findViewById(R.id.btn_action);
+        mMessageButton = (ImageButton)mMessageView.findViewById(R.id.btn_action);
+        mExitButton = (ImageButton)mExitView.findViewById(R.id.btn_action);
 
         View[] buttonsArray = { mLikeView, mSuperLikeView, mMessageView, mCatchUpView };
         mButtons = buttonsArray;
@@ -104,40 +111,55 @@ public class MainActivity extends AppCompatActivity {
         mCatchUpView.setVisibility(View.GONE);
         mExitView.setVisibility(View.GONE);
 
-        mExitButton.setText("X");
+        mLikeButton.setImageDrawable(getResources().getDrawable(R.drawable.heart_icon_white));
+        mSuperLikeButton.setImageDrawable(getResources().getDrawable(R.drawable.star));
+        mMessageButton.setImageDrawable(getResources().getDrawable(R.drawable.messages));
+        mCatchUpButton.setImageDrawable(getResources().getDrawable(R.drawable.cat));
+        mExitButton.setImageDrawable(getResources().getDrawable(R.drawable.x_mark));
+
         mExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateButtons(false, mXCoordinate, mYCoordinate);
+                float pixelsPerDip = getResources().getDisplayMetrics().density;
+                ActionAnimationHelper.animateButtons(false, mXCoordinate, mYCoordinate, pixelsPerDip, mButtons, mExitView);
+                mChosenUser = null;
             }
         });
 
-        mLikeButton.setText("L");
         mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateButtons(false, mXCoordinate, mYCoordinate);
+                new LikeOnClickListener().onClickUserAction(mLikeView, mChosenUser);
+                float pixelsPerDip = getResources().getDisplayMetrics().density;
+                ActionAnimationHelper.animateButtons(false, mXCoordinate, mYCoordinate, pixelsPerDip, mButtons, mExitView);
+                mChosenUser = null;
             }
         });
-        mSuperLikeButton.setText("S");
         mSuperLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateButtons(false, mXCoordinate, mYCoordinate);
+                new SuperLikeOnClickListener().onClickUserAction(mLikeView, mChosenUser);
+                float pixelsPerDip = getResources().getDisplayMetrics().density;
+                ActionAnimationHelper.animateButtons(false, mXCoordinate, mYCoordinate, pixelsPerDip, mButtons, mExitView);
+                mChosenUser = null;
             }
         });
-        mMessageButton.setText("M");
         mMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateButtons(false, mXCoordinate, mYCoordinate);
+                new MessageOnClickListener().onClickUserAction(mLikeView, mChosenUser);
+                float pixelsPerDip = getResources().getDisplayMetrics().density;
+                ActionAnimationHelper.animateButtons(false, mXCoordinate, mYCoordinate, pixelsPerDip, mButtons, mExitView);
+                mChosenUser = null;
             }
         });
-        mCatchUpButton.setText("C");
         mCatchUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateButtons(false, mXCoordinate, mYCoordinate);
+                new CatchUpOnClickListener().onClickUserAction(mLikeView, mChosenUser);
+                float pixelsPerDip = getResources().getDisplayMetrics().density;
+                ActionAnimationHelper.animateButtons(false, mXCoordinate, mYCoordinate, pixelsPerDip, mButtons, mExitView);
+                mChosenUser = null;
             }
         });
     }
@@ -176,7 +198,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (mChosenUser != null) {
-                    animateButtons(false, mXCoordinate, mYCoordinate);
+                    float pixelsPerDip = getResources().getDisplayMetrics().density;
+                    ActionAnimationHelper.animateButtons(false, mXCoordinate, mYCoordinate, pixelsPerDip, mButtons, mExitView);
                     mChosenUser = null;
                 }
             }
@@ -225,97 +248,6 @@ public class MainActivity extends AppCompatActivity {
             users.add(User.generateDummyUser());
         }
         return users;
-    }
-
-    public void animateButtons(boolean isForward, float fromX, float fromY){
-        float pixelsPerDip = getResources().getDisplayMetrics().density;
-        int radius = (int) (20 * pixelsPerDip);
-        int margin = (int) (4 * pixelsPerDip);
-        fromX = fromX - radius;
-        fromY = fromY - radius;
-
-        float toX = radius * 4;
-        float toY = 0;
-
-        int duration = 50;
-
-        if (isForward){
-            for (int i = 0; i < mButtons.length; i++){
-                mButtons[i].setVisibility(View.VISIBLE);
-                animateButtonBy(mButtons[i], fromX, -toX, fromY, -toY, duration * i);
-
-                toX = nextXGivenPreviousPoint(toX, toY, radius, margin);
-                toY = toYGivenToX(toX, 4 * radius);
-            }
-
-            mExitView.setVisibility(View.VISIBLE);
-            mExitView.setX(fromX);
-            mExitView.setY(fromY);
-            mExitView.setAlpha(1f);
-            mExitView.animate()
-                    .rotationBy(180)
-                    .setDuration(duration * mButtons.length)
-                    .start();
-        }else {
-            for (int i = 0; i < mButtons.length; i++){
-                mButtons[i].setVisibility(View.VISIBLE);
-                animateButtonBy(mButtons[i], fromX - toX, toX, fromY - toY, toY, duration * i);
-
-                toX = nextXGivenPreviousPoint(toX, toY, radius, margin);
-                toY = toYGivenToX(toX, 4 * radius);
-            }
-
-            mExitView.setVisibility(View.VISIBLE);
-            mExitView.setAlpha(1f);
-            mExitView.animate()
-                    .rotationBy(180)
-                    .setDuration(duration * mButtons.length)
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            mExitView.animate()
-                                    .alpha(0f)
-                                    .setDuration(100)
-                                    .withEndAction(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            mExitView.setVisibility(View.GONE);
-                                        }
-                                    }).start();
-                            for (View button : mButtons){
-                                button.setVisibility(View.GONE);
-                            }
-                        }
-                    }).start();
-        }
-    }
-
-    protected float toYGivenToX(float toX, float radius){
-        return (float)Math.sqrt(Math.pow(radius, 2) - Math.pow(toX, 2));
-    }
-
-    //quadratic formula used here
-    protected float nextXGivenPreviousPoint(float oldX, float oldY, int radius, int margin){
-        double constant = 32 * Math.pow(radius, 2) - Math.pow(2 * radius + margin, 2);
-        double b = - 4 * oldX * constant;
-        double a = 4 * Math.pow(4 * radius, 2);
-        double c = Math.pow(constant, 2) - Math.pow(8 * oldY * radius, 2);
-        double radicand = Math.pow(b, 2) - 4 * a * c; // b^2 - 4ac
-        double numerator = -b - Math.sqrt(radicand); // -b - root(b^2 - 4ac)
-        double denominator = 2 * a;
-        return (float) (numerator / denominator);
-    }
-
-    protected void animateButtonBy(View button, float fromX, float toX, float fromY, float toY, int offset){
-        int duration = 100;
-        button.setX(fromX);
-        button.setY(fromY);
-        button.animate()
-                .setDuration(duration)
-                .translationXBy(toX)
-                .translationYBy(toY)
-                .setStartDelay(offset)
-                .start();
     }
 
     @Override
