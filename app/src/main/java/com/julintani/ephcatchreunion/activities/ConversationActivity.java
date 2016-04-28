@@ -2,11 +2,10 @@ package com.julintani.ephcatchreunion.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +13,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.julintani.ephcatchreunion.R;
 import com.julintani.ephcatchreunion.adapter.ConversationAdapter;
 import com.julintani.ephcatchreunion.models.Conversation;
+import com.julintani.ephcatchreunion.models.Message;
 import com.julintani.ephcatchreunion.models.User;
 
 import java.util.ArrayList;
@@ -28,8 +29,7 @@ import java.util.List;
  * Created by ell on 12/13/15.
  */
 public class ConversationActivity extends AppCompatActivity {
-    public static final String CONVERSATION_ID_KEY = "layer-conversation-id";
-    private AutoCompleteTextView mToTextField;
+    public static final String CONVERSATION_KEY = "conversation";
     private RecyclerView mRecyclerView;
     private EditText mMessageEditText;
 
@@ -44,28 +44,17 @@ public class ConversationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
 
-        Bundle extras = getIntent().getExtras();
-//        if (extras != null){
-//            Uri convoId = extras.getParcelable(CONVERSATION_ID_KEY);
-//            Conversation conversation = LayerManager.getStaticLayerClient().getConversation(convoId);
-//            if (conversation != null && conversation.getParticipants() != null){
-//                for (String objectId : conversation.getParticipants()){
-//                    if (objectId != ParseUser.getCurrentUser().getObjectId()){
-//                        User.userForId(objectId, new User.UserLoadedFromIdCallback() {
-//                            @Override
-//                            public void onUserLoadedFromId(User user) {
-//                                setUser(user);
-//                            }
-//                        });
-//                    }
-//                }
-//            }
-//            mConversation = conversation;
-//        }
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mToTextField = (AutoCompleteTextView) findViewById(R.id.atv_message_to);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_messages);
         mMessageEditText = (EditText) findViewById(R.id.et_message);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            mConversation = (Conversation) extras.getSerializable(CONVERSATION_KEY);
+            setUser(mConversation.getUser());
+        }
 
 //            ParseQuery<ParseUser> query = ParseUser.getQuery();
 //            query.whereContainedIn("objectId", User.getCurrentUser().getConnectsObjectIds());
@@ -87,13 +76,6 @@ public class ConversationActivity extends AppCompatActivity {
 //                    mMessageEditText.requestFocus();
 //                }
 //            });
-
-        findViewById(R.id.photoImage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,9 +148,8 @@ public class ConversationActivity extends AppCompatActivity {
 
     private void setUser(User user){
         otherUser = user;
-        if (getSupportActionBar() != null) getSupportActionBar().setTitle(otherUser.getUsername());
-        if (getActionBar() != null) getActionBar().setTitle(otherUser.getUsername());
-        mToTextField.setVisibility(View.GONE);
+        if (getSupportActionBar() != null) getSupportActionBar().setTitle(otherUser.getName());
+        if (getActionBar() != null) getActionBar().setTitle(otherUser.getName());
 
         mConversationAdapter = new ConversationAdapter(mMessages, otherUser);
 

@@ -8,5 +8,4 @@ import com.julintani.ephcatchreunion.models.Conversation;
  */
 public interface OnConversationClickedListener {
     void onConversationClicked(Conversation conversation);
-    void onConversationDeleteClicked(Conversation conversation);
 }

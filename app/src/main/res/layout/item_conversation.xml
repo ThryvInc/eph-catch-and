@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/activity_horizontal_large_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_large_margin"
         android:layout_toRightOf="@+id/iv_user_image"
-        android:layout_toLeftOf="@+id/iv_delete"
+        android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:orientation="vertical"
         >
@@ -31,7 +31,7 @@
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/system_green"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             />
 
@@ -55,20 +55,10 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/activity_vertical_margin"
-        android:src="@drawable/icondelete"
-        />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/socialhigh_gray"
+        android:background="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         />
 
