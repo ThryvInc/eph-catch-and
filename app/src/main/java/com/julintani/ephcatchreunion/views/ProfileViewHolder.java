@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,10 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
     protected TextView mExtraCurricularsTextView;
     protected TextView mJobTextView;
 
+    protected View mLikeView;
+    protected View mSuperLikeView;
+    protected View mCatchUpView;
+
     private User mUser;
     private ProfileType mType;
     private ItemLongPressHelper.Callback mCallback;
@@ -56,6 +61,18 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
         if (mType == ProfileType.LARGE){
             mMajorTextView = (TextView) view.findViewById(R.id.tv_major);
             mExtraCurricularsTextView = (TextView) view.findViewById(R.id.tv_extra_curriculars);
+        }else {
+            mLikeView = view.findViewById(R.id.ll_like);
+            mSuperLikeView = view.findViewById(R.id.ll_super_like);
+            mCatchUpView = view.findViewById(R.id.ll_catch_up);
+
+            mLikeView.setVisibility(View.GONE);
+            mSuperLikeView.setVisibility(View.GONE);
+            mCatchUpView.setVisibility(View.GONE);
+
+            setDrawableForActionView(mLikeView, R.drawable.heart_icon_white);
+            setDrawableForActionView(mSuperLikeView, R.drawable.star);
+            setDrawableForActionView(mCatchUpView, R.drawable.cat);
         }
     }
 
@@ -81,10 +98,43 @@ public class ProfileViewHolder extends RecyclerView.ViewHolder {
             if (mType == ProfileType.LARGE){
                 mMajorTextView.setText(user.getMajor());
                 mExtraCurricularsTextView.setText(user.getExtraCurriculars());
+            }else {
+                setLikes(user);
             }
 
             new ItemLongPressHelper(mCallback).attachToViewHolder(this);
         }
+    }
+
+    public void setLikes(User user){
+        if (user.hasMatchedWith(User.getCurrentUser())){
+            mLikeView.setVisibility(View.VISIBLE);
+            selectActionView(mLikeView);
+        }else if (User.getCurrentUser().doesLike(user)){
+            mLikeView.setVisibility(View.VISIBLE);
+        }
+        if (user.hasSuperLiked(User.getCurrentUser())){
+            mSuperLikeView.setVisibility(View.VISIBLE);
+            selectActionView(mSuperLikeView);
+        }else if (User.getCurrentUser().hasSuperLiked(user)){
+            mSuperLikeView.setVisibility(View.VISIBLE);
+        }
+        if (user.doesWantToCatchUpWith(User.getCurrentUser())){
+            mCatchUpView.setVisibility(View.VISIBLE);
+            selectActionView(mCatchUpView);
+        }else if (User.getCurrentUser().doesWantToCatchUpWith(user)){
+            mCatchUpView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setDrawableForActionView(View actionView, int resId){
+        ImageButton actionButton = (ImageButton)actionView.findViewById(R.id.btn_action);
+        actionButton.setImageDrawable(itemView.getResources().getDrawable(resId));
+    }
+
+    private void selectActionView(View actionView){
+        ImageButton actionButton = (ImageButton)actionView.findViewById(R.id.btn_action);
+        actionButton.setSelected(true);
     }
 
     public User getUser(){
