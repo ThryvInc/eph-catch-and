@@ -8,5 +8,5 @@
 
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="weedCastPosterImageSize">40dp</dimen>
+    <dimen name="weedCastPosterImageSize">50dp</dimen>
 </resources>

@@ -21,13 +21,10 @@ import java.util.List;
 public class EphAdapter extends RecyclerView.Adapter {
     protected List<User> mUsers;
     private OnProfileCardClickListener mClickListener;
-    private ItemLongPressHelper.Callback mCallback;
 
-    public EphAdapter(List<User> users, OnProfileCardClickListener clickListener,
-                      ItemLongPressHelper.Callback callback){
+    public EphAdapter(List<User> users, OnProfileCardClickListener clickListener){
         mUsers = users;
         mClickListener = clickListener;
-        mCallback = callback;
     }
 
     @Override
@@ -49,14 +46,14 @@ public class EphAdapter extends RecyclerView.Adapter {
             return new InfoViewHolder(view);
         }
         View view = inflater.inflate(R.layout.card_user, parent, false);
-        return new ProfileViewHolder(view, ProfileViewHolder.ProfileType.MINIFIED, mCallback);
+        return new ProfileViewHolder(view, ProfileViewHolder.ProfileType.MINIFIED);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder.getClass() == ProfileViewHolder.class){
             final ProfileViewHolder holder = (ProfileViewHolder) viewHolder;
-            holder.displayUser(mUsers.get(position));
+            holder.displayUser(mUsers.get(position - 1));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +65,7 @@ public class EphAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        if (mUsers != null) return mUsers.size();
+        if (mUsers != null && mUsers.size() > 0) return mUsers.size() + 1;
         return 0;
     }
 }

@@ -51,29 +51,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
+                android:maxLines="2"
                 android:text="Namesake of best college evar"
                 />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical"
-            >
-
-            <include
-                android:id="@+id/ll_like"
-                layout="@layout/circle_button_small" />
-
-            <include
-                android:id="@+id/ll_super_like"
-                layout="@layout/circle_button_small" />
-
-            <include
-                android:id="@+id/ll_catch_up"
-                layout="@layout/circle_button_small" />
 
         </LinearLayout>
 

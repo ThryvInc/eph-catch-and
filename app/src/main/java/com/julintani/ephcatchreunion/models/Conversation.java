@@ -9,27 +9,17 @@ import java.util.List;
  * Created by ell on 4/22/16.
  */
 public class Conversation implements Serializable{
+    private int id;
     private User user;
-    private Date lastMessageTimestamp;
     private String lastMessageText;
     private List<Message> messages;
 
-    public static List<Conversation> generateConversations(){
-        ArrayList<Conversation> conversations = new ArrayList<>();
-        Conversation conversation = new Conversation();
-        conversation.setUser(User.generateDummyUser());
-        conversation.setLastMessageText("Sup bae");
-        conversation.setLastMessageTimestamp(new Date(new Date().getTime() - 10 * 1000));
-        conversations.add(conversation);
+    public int getId() {
+        return id;
+    }
 
-        ArrayList<Message> messages = new ArrayList<>();
-        Message message = new Message();
-        message.setSender(User.generateDummyUser());
-        message.setText("Sup bae");
-        message.setCreatedAt(new Date(new Date().getTime() - 10 * 1000));
-        messages.add(message);
-
-        return conversations;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -38,14 +28,6 @@ public class Conversation implements Serializable{
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Date getLastMessageTimestamp() {
-        return lastMessageTimestamp;
-    }
-
-    public void setLastMessageTimestamp(Date lastMessageTimestamp) {
-        this.lastMessageTimestamp = lastMessageTimestamp;
     }
 
     public String getLastMessageText() {

@@ -23,7 +23,6 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
     private SimpleDraweeView mUserImageView;
     private TextView mUsernameTextView;
     private TextView mMessageTextView;
-    private TextView mTimeAgoTextView;
 
     public ConversationViewHolder(View itemView, OnConversationClickedListener listener) {
         super(itemView);
@@ -31,7 +30,6 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
         mUserImageView = (SimpleDraweeView)itemView.findViewById(R.id.iv_user_image);
         mUsernameTextView = (TextView)itemView.findViewById(R.id.tv_username);
         mMessageTextView = (TextView)itemView.findViewById(R.id.tv_notification);
-        mTimeAgoTextView = (TextView)itemView.findViewById(R.id.tv_time_ago);
 
         mListener = listener;
     }
@@ -47,8 +45,5 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                 mListener.onConversationClicked(conversation);
             }
         });
-    }
-
-    private void setUser(User user){
     }
 }

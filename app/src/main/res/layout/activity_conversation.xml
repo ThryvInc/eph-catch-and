@@ -16,9 +16,7 @@
         android:id="@+id/rv_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingLeft="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_vertical_margin"/>
+        android:layout_weight="1"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,13 +34,14 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"/>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_send"
             android:text="Send"
             android:textColor="@color/white"
             android:layout_alignParentRight="true"
+            app:backgroundTint="@color/colorPrimary"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 

@@ -1,40 +1,23 @@
 package com.julintani.ephcatchreunion.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by ell on 4/24/16.
  */
 public class Event implements Serializable {
-    private Date startAt;
-    private Date endAt;
-    private String title;
+    private String name;
     private String description;
     private String location;
+    private String time;
+    private String day;
 
-    public Date getStartAt() {
-        return startAt;
+    public String getName() {
+        return name;
     }
 
-    public void setStartAt(Date startAt) {
-        this.startAt = startAt;
-    }
-
-    public Date getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(Date endAt) {
-        this.endAt = endAt;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -51,5 +34,21 @@ public class Event implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }

@@ -14,21 +14,20 @@ import com.julintani.ephcatchreunion.models.User;
  * Created by ell on 12/13/15.
  */
 public class MessageViewHolder extends RecyclerView.ViewHolder {
-    private User mUser;
     private SimpleDraweeView mUserImageView;
     private TextView mMessageTextView;
-    private TextView mTimeAgoTextView;
 
 
     public MessageViewHolder(View itemView, User otherUser) {
         super(itemView);
-        mUser = otherUser;
         mUserImageView = (SimpleDraweeView) itemView.findViewById(R.id.iv_user);
         mMessageTextView = (TextView) itemView.findViewById(R.id.tv_message);
     }
 
-    public void display(Message message){
-        mUserImageView.setImageURI(Uri.parse(message.getSender().getImageUrl()));
-        mMessageTextView.setText(message.getText());
+    public void display(Message message, User user){
+        if (user != null){
+            mUserImageView.setImageURI(Uri.parse(user.getImageUrl()));
+        }
+        mMessageTextView.setText(message.getBody());
     }
 }

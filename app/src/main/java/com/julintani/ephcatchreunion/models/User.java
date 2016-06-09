@@ -1,5 +1,10 @@
 package com.julintani.ephcatchreunion.models;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,68 +13,51 @@ import java.util.List;
  * Created by ell on 3/22/16.
  */
 public class User implements Serializable{
-    private static User currentUser = User.generateDummyUser();
+    private static User currentUser;
 
     private int id;
     private String name;
     private String major;
-    private String extraCurriculars;
-    private String job;
+    private String extracurriculars;
+    @SerializedName("current-activity")
+    private String currentActivity;
+    @SerializedName("image-url")
     private String imageUrl;
-    private List<Like> relevantLikes = new ArrayList<>();
+    @SerializedName("device-type")
+    private String deviceType = "android";
+    @SerializedName("push-token")
+    private String pushToken;
 
-    public static User generateDummyUser(){
+
+    public static User getCurrentUser(Context context) {
+        if (currentUser != null){
+            return currentUser;
+        }
+
         User user = new User();
-        user.name = "Ephraim Williams";
-        user.major = "Defeating-the-French major";
-        user.extraCurriculars = "Being a Colonel, Establishing schools";
-        user.job = "Namesake of the best college evar";
-        user.imageUrl = "http://ephsports.williams.edu/images/Reading_Purple_Cow_at_380_x_260.jpg";
-        return user;
-    }
+        SharedPreferences preferences = context.getSharedPreferences("currentUser", Context.MODE_PRIVATE);
+        user.setId(preferences.getInt("id", 0));
+        user.setName(preferences.getString("name", ""));
+        user.setMajor(preferences.getString("major", ""));
+        user.setExtracurriculars(preferences.getString("extracurriculars", ""));
+        user.setCurrentActivity(preferences.getString("currentActivity", ""));
+        user.setImageUrl(preferences.getString("imageUrl", ""));
+        user.setPushToken(preferences.getString("pushToken", ""));
 
-    public static User getCurrentUser() {
+        currentUser = user;
         return currentUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
+    public static void setCurrentUser(Context context, User currentUser) {
         User.currentUser = currentUser;
-    }
-
-    public boolean doesLike(User otherUser){
-        for (Like like : this.relevantLikes){
-            if (like.getOtherUser().equals(otherUser) && like.isSecret()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasMatchedWith(User otherUser){
-        for (Like like : this.relevantLikes){
-            if (like.getOtherUser().equals(otherUser) && like.isMutual()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasSuperLiked(User otherUser){
-        for (Like like : this.relevantLikes){
-            if (like.getOtherUser().equals(otherUser) && !like.isSecret()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean doesWantToCatchUpWith(User otherUser){
-        for (Like like : this.relevantLikes){
-            if (like.getOtherUser().equals(otherUser) && like.isPlatonic()){
-                return true;
-            }
-        }
-        return false;
+        SharedPreferences.Editor editor = context.getSharedPreferences("currentUser", Context.MODE_PRIVATE).edit();
+        editor.putInt("id", currentUser.getId());
+        editor.putString("name", currentUser.getName());
+        editor.putString("major", currentUser.getMajor());
+        editor.putString("extracurriculars", currentUser.getExtracurriculars());
+        editor.putString("currentActivity", currentUser.getCurrentActivity());
+        editor.putString("imageUrl", currentUser.getImageUrl());
+        editor.apply();
     }
 
     public int getId() {
@@ -96,20 +84,20 @@ public class User implements Serializable{
         this.major = major;
     }
 
-    public String getExtraCurriculars() {
-        return extraCurriculars;
+    public String getExtracurriculars() {
+        return extracurriculars;
     }
 
-    public void setExtraCurriculars(String extraCurriculars) {
-        this.extraCurriculars = extraCurriculars;
+    public void setExtracurriculars(String extracurriculars) {
+        this.extracurriculars = extracurriculars;
     }
 
-    public String getJob() {
-        return job;
+    public String getCurrentActivity() {
+        return currentActivity;
     }
 
-    public void setJob(String job) {
-        this.job = job;
+    public void setCurrentActivity(String currentActivity) {
+        this.currentActivity = currentActivity;
     }
 
     public String getImageUrl() {
@@ -118,6 +106,14 @@ public class User implements Serializable{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
     }
 
     @Override

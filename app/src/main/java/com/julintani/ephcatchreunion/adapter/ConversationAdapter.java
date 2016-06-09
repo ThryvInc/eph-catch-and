@@ -24,10 +24,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<MessageViewHolder>
         mUser = otherUser;
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        return mMessages.get(position).getSender().getUserId().equals(User.getCurrentUser().getObjectId()) ? 0 : 1;
-//    }
+    @Override
+    public int getItemViewType(int position) {
+        return mMessages.get(position).getUserId() == mUser.getId() ? 1 : 0;
+    }
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,7 +40,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<MessageViewHolder>
 
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
-        holder.display(mMessages.get(position));
+        Message message = mMessages.get(position);
+        holder.display(message, message.getUserId() == mUser.getId() ? mUser : null);
     }
 
     @Override

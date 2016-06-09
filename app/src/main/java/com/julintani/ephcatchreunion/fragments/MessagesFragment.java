@@ -12,14 +12,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.julintani.ephcatchreunion.R;
 import com.julintani.ephcatchreunion.activities.ConversationActivity;
 import com.julintani.ephcatchreunion.adapter.MessagesAdapter;
 import com.julintani.ephcatchreunion.listeners.OnConversationClickedListener;
 import com.julintani.ephcatchreunion.models.Conversation;
+import com.julintani.ephcatchreunion.models.ConversationParser;
+import com.julintani.ephcatchreunion.models.ConvoHolder;
+import com.julintani.ephcatchreunion.models.Event;
+import com.julintani.ephcatchreunion.models.EventHolder;
+import com.julintani.ephcatchreunion.models.ServerInfo;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ell on 12/12/15.
@@ -61,9 +78,39 @@ public class MessagesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateMessages();
+    }
+
     private void updateMessages(){
-        mConversations.addAll(Conversation.generateConversations());
-        mAdapter.notifyDataSetChanged();
+        showProgress(true);
+        JsonObjectRequest request = new JsonObjectRequest(ServerInfo.BASE_URL + "conversations?page-size=200", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                List<Conversation> conversations = ConversationParser.parse(getActivity(), response);
+                mConversations.removeAll(mConversations);
+                mConversations.addAll(conversations);
+                mAdapter.notifyDataSetChanged();
+                showProgress(false);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                showProgress(false);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put(ServerInfo.CONTENT_TYPE, ServerInfo.CONTENT_TYPE_HEADER);
+                headers.put(ServerInfo.API_KEY_HEADER, ServerInfo.getApiKey(getActivity()));
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(getActivity()).add(request);
     }
 
     protected void showProgress(boolean shouldShow){

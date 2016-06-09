@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "851561399658",
+    "project_id": "api-project-851561399658"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851561399658:android:6f7559d60b7b9135",
+        "android_client_info": {
+          "package_name": "com.julintani.ephcatchreunion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoUikieSKThYjT1EnZ7KiwJcbBOrGa0nI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

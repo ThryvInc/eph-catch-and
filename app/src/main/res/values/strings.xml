@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Eph Catch Reunion</string>
+    <string name="app_name">Eph Reunion</string>
     <string name="action_messages">Messages</string>
+    <string name="action_save">Save</string>
 </resources>
