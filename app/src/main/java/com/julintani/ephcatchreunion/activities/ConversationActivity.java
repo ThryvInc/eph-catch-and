@@ -70,6 +70,8 @@ public class ConversationActivity extends AppCompatActivity {
     private BroadcastReceiver mMsgReceivedBroadcastReceiver;
     private boolean isReceiverRegistered;
 
+    private View sendButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +95,7 @@ public class ConversationActivity extends AppCompatActivity {
             }
         }
 
-        View sendButton = findViewById(R.id.btn_send);
+        sendButton = findViewById(R.id.btn_send);
         if (sendButton != null) {
             sendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,6 +103,7 @@ public class ConversationActivity extends AppCompatActivity {
                     String body = mMessageEditText.getText().toString().trim();
                     if (!TextUtils.isEmpty(body)) {
                         if (body.length() < 100) {
+                            sendButton.setEnabled(false);
                             if (mConversation != null) {
                                 sendMessage(body);
                             }else {
@@ -175,11 +178,13 @@ public class ConversationActivity extends AppCompatActivity {
                         mMessageEditText.setText("");
                         MessagingManager.getInstance().refreshConversations(ConversationActivity.this);
                     }
+                    sendButton.setEnabled(true);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
+                    sendButton.setEnabled(true);
                 }
             }){
                 @Override
@@ -193,6 +198,7 @@ public class ConversationActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(request);
         } catch (JSONException e) {
             e.printStackTrace();
+            sendButton.setEnabled(true);
         }
     }
 
@@ -213,11 +219,13 @@ public class ConversationActivity extends AppCompatActivity {
                     updateMessages();
                     mMessageEditText.setText("");
                     MessagingManager.getInstance().refreshConversations(ConversationActivity.this);
+                    sendButton.setEnabled(true);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
+                    sendButton.setEnabled(true);
                 }
             }){
                 @Override
@@ -231,6 +239,7 @@ public class ConversationActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(request);
         } catch (JSONException e) {
             e.printStackTrace();
+            sendButton.setEnabled(true);
         }
     }
 

@@ -41,7 +41,7 @@ public class ReunionGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_cowiconwhite)
-                .setColor(getColor(R.color.colorPrimary))
+                .setColor(getApplicationContext().getResources().getColor(R.color.colorPrimary))
                 .setContentTitle("New Message")
                 .setContentText(message)
                 .setAutoCancel(true)
